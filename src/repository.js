@@ -15,6 +15,9 @@ const GetRepositoryInfoQuery = gql`
         watchers {
           totalCount
         }
+        forks(last: 4) {
+          totalCount
+        }
       }
     }
   }
@@ -56,6 +59,7 @@ class Repository extends React.Component {
       name: props.name,
       stargazers: 0,
       watchers: 0,
+      forks: 0,
     };
   }
 
@@ -68,7 +72,8 @@ class Repository extends React.Component {
       login: this.props.login,
       name: this.props.name,
       stargazers: repo.stargazers.totalCount,
-      watchers: repo.watchers.totalCount
+      watchers: repo.watchers.totalCount,
+      forks: repo.forks.totalCount,
     });
   }
 
@@ -78,6 +83,7 @@ class Repository extends React.Component {
       <ul>
         <li>stargazers: {this.state.stargazers.toLocaleString()}</li>
         <li>watchers: {this.state.watchers.toLocaleString()}</li>
+        <li>forks: {this.state.forks.toLocaleString()}</li>
       </ul>
     </div>)
   }
