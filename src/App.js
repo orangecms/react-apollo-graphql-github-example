@@ -5,12 +5,11 @@ import React, { Component } from 'react';
 import { ApolloProvider } from 'react-apollo';
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
 
-// Auth
-import {login} from './githubLogin';
-import { username, password } from './config';
-
 // App.Components
 import Repository from './repository';
+
+// Auth
+import { login as githubLogin } from './githubLogin';
 
 // Global.Auth
 let TOKEN = null;
@@ -41,11 +40,13 @@ export default class App extends Component {
     this.state = { login: false };
   }
 
-  componentDidMount() {
-    if (username === 'xxx') {
-      throw new Error('Please create a config.js your username and password.');
+  login = (e) => {
+    e.preventDefault();
+    const { username, password } = this.state;
+    if (!username || !password) {
+      throw new Error('Please enter credentials');
     }
-    login(username, password).then(token => {
+    githubLogin(username, password).then(token => {
       TOKEN = token;
       this.setState({ login: true });
     });
@@ -57,11 +58,25 @@ export default class App extends Component {
       login,
       name
   }}
-  
+
+  setUsername = (e) => {
+    this.setState({ username: e.target.value });
+  }
+
+  setPassword = (e) => {
+    this.setState({ password: e.target.value });
+  }
+
   render() {
     // Log in state
-    if(!this.state.login) {
-      return <p>Login...</p>
+    if (!this.state.login) {
+      return (
+        <form onSubmit={this.login}>
+          <input type="text" name="username" onChange={this.setUsername} />
+          <input type="password" name="password" onChange={this.setPassword} />
+          <button type="submit">Go</button>
+        </form>
+      );
     }
 
     // Logged in, fetch from Github
