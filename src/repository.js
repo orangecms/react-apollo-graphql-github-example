@@ -78,7 +78,7 @@ class Repository extends React.Component {
   }
 
   render() {
-    return (<div>
+    return (<div style={{ margin: 100 }}>
       <h2>{this.state.login}/{this.state.name}</h2>
       <ul>
         <li>stargazers: {this.state.stargazers.toLocaleString()}</li>

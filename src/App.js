@@ -71,19 +71,36 @@ export default class App extends Component {
     // Log in state
     if (!this.state.login) {
       return (
-        <form onSubmit={this.login}>
-          <input type="text" name="username" onChange={this.setUsername} />
-          <input type="password" name="password" onChange={this.setPassword} />
+        <form onSubmit={this.login} style={{ margin: 100 }}>
+          <h2>GitHub Login</h2>
+          <label style={{ display: 'block' }}>
+            Username
+            <input
+              type="text"
+              name="username"
+              onChange={this.setUsername}
+              style={{ margin: 12 }}
+            />
+          </label>
+          <label style={{ display: 'block' }}>
+            Password
+            <input
+              type="password"
+              name="password"
+              onChange={this.setPassword}
+              style={{ margin: 12 }}
+            />
+          </label>
           <button type="submit">Go</button>
         </form>
       );
     }
 
     // Logged in, fetch from Github
-    return this.state.login ? (
+    return (
       <ApolloProvider client={client}>
         <Repository {...this.routeForRepository('facebook', 'react')} />
       </ApolloProvider>
-    ) : <p>Logging in...</p>;
+    );
   }
 }
