@@ -67,40 +67,40 @@ export default class App extends Component {
     this.setState({ password: e.target.value });
   }
 
-  render() {
-    // Log in state
-    if (!this.state.login) {
-      return (
-        <form onSubmit={this.login} style={{ margin: 100 }}>
-          <h2>GitHub Login</h2>
-          <label style={{ display: 'block' }}>
-            Username
-            <input
-              type="text"
-              name="username"
-              onChange={this.setUsername}
-              style={{ margin: 12 }}
-            />
-          </label>
-          <label style={{ display: 'block' }}>
-            Password
-            <input
-              type="password"
-              name="password"
-              onChange={this.setPassword}
-              style={{ margin: 12 }}
-            />
-          </label>
-          <button type="submit">Go</button>
-        </form>
-      );
-    }
+  renderApolloProvider = () => (
+    <ApolloProvider client={client}>
+      <Repository {...this.routeForRepository('facebook', 'react')} />
+    </ApolloProvider>
+  )
 
-    // Logged in, fetch from Github
-    return (
-      <ApolloProvider client={client}>
-        <Repository {...this.routeForRepository('facebook', 'react')} />
-      </ApolloProvider>
-    );
+  renderLoginForm = () => (
+    <form onSubmit={this.login} style={{ margin: 100 }}>
+      <h2>GitHub Login</h2>
+      <label style={{ display: 'block' }}>
+        Username
+        <input
+          type="text"
+          name="username"
+          onChange={this.setUsername}
+          style={{ margin: 12 }}
+        />
+      </label>
+      <label style={{ display: 'block' }}>
+        Password
+        <input
+          type="password"
+          name="password"
+          onChange={this.setPassword}
+          style={{ margin: 12 }}
+        />
+      </label>
+      <button type="submit">Go</button>
+    </form>
+  )
+
+  render() {
+    return this.state.login
+      ? this.renderApolloProvider()
+      : this.renderLoginForm();
   }
 }
