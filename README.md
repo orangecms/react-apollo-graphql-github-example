@@ -15,9 +15,6 @@ cd react-apollo-graphql-github-example
 npm i
 ```
 
-## Config
-- Copy `config.default.js` into a file called `config.js`, and replace `xxx` with your username and password
-
 ## Develop
 ```sh
 npm start
